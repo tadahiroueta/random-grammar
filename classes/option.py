@@ -5,4 +5,5 @@ from classes.symbol import Symbol
 
 class Option:
     def __init__(self, weight: int, value: List[Symbol]):
-        pass
+        self.weight = weight
+        self.value = value
