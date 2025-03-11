@@ -1,16 +1,16 @@
 from random import choices
-from typing import Set, List
+from typing import List, Generator
 
 from classes.option import Option
 from classes.symbol import Symbol, VariableSymbol
 
 
 class Rule:
-    def __init__(self, name: VariableSymbol, options: Set[Option]):
+    def __init__(self, name: VariableSymbol, options: List[Option]):
         self.name = name
-        self._option_values = [option.value for option in options]
+        self._options = options
         self._option_weights = [option.weight for option in options]
 
-    def __call__(self) -> List[Symbol]:
+    def __call__(self) -> Generator[Symbol, None, None]:
         """Returns one of the options based on the weights."""
-        return choices(self._option_values, self._option_weights, k=1)[0]
+        yield from choices(self._options, self._option_weights, k=1)[0]()
