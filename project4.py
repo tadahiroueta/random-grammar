@@ -29,7 +29,8 @@ def parse_grammar(path: str) -> Grammar:
                     # options
                     weight, *value = line.split()
                     weight = int(weight)
-                    value = [TerminalSymbol(symbol) if "[" in symbol else VariableSymbol(symbol)
+                    value = [TerminalSymbol(symbol) if not "[" in symbol
+                             else VariableSymbol(symbol[1:-1])
                              for symbol in value]
                     options.append(Option(weight, value))
 
@@ -46,8 +47,9 @@ def main() -> None:
     number_of_sentences = int(input())
     start_variable_name = input()
 
-    with open(grammar_file_path, 'r') as file:
-        grammar = file.read()
+    grammar = parse_grammar(grammar_file_path)
+    for _ in range(number_of_sentences):
+        print(" ".join(grammar(start_variable_name)))
 
 
 if __name__ == '__main__':

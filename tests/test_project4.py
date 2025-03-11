@@ -1,6 +1,10 @@
+import io
 import unittest
+import contextlib
+from random import seed
+from unittest.mock import patch
 
-from project4 import parse_grammar
+from project4 import parse_grammar, main
 from classes.rule import Rule
 from classes.option import Option
 from classes.grammar import Grammar
@@ -45,6 +49,35 @@ class TestProject4(unittest.TestCase):
             self.assertEqual(len(parsed._options[0]._value),
                              len(model._options[0]._value),
                              "Failed to parse the correct number of symbols in an option.")
+            self.assertIsInstance(parsed._options[0]._value[0], TerminalSymbol,
+                                  "Failed to parse the correct symbol type.")
+
+    @patch('builtins.input', side_effect=["..\\data\\small.txt", "1000", "HowIsBoo"])
+    def test_main(self, mock_input):
+        POSSIBILITY_PROPORTIONS = {
+            "Boo is happy today": 0.3,
+            "Boo is perfect today": 0.3,
+            "Boo is relaxing today": 0.1,
+            "Boo is fulfilled today": 0.1,
+            "Boo is excited today": 0.2
+        }
+        SEED = 0
+
+        seed(SEED)
+        with contextlib.redirect_stdout(io.StringIO()) as output:
+            main()
+
+        sentences = output.getvalue().split("\n")[:-1]
+
+        self.assertEqual(len(sentences), 1000,
+                         "Failed to generate the correct number of sentences.")
+        for sentence in sentences:
+            self.assertIn(sentence, POSSIBILITY_PROPORTIONS.keys(),
+                          "Failed to generate a valid sentence.")
+
+        for possibility, proportion in POSSIBILITY_PROPORTIONS.items():
+            self.assertAlmostEqual(sentences.count(possibility) / 1000, proportion, places=1,
+                                   msg="Failed to generate the correct proportion of sentences.")
 
 
 if __name__ == '__main__':
