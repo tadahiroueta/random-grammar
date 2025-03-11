@@ -6,3 +6,6 @@ __pycache__
 *.bundle
 *.coverage
 /venv
+.noai
+prepare_submission.py
+project4_sanitycheck.py
