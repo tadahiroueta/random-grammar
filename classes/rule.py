@@ -6,10 +6,10 @@ from classes.symbol import Symbol, VariableSymbol
 
 
 class Rule:
-    def __init__(self, name: VariableSymbol, options: List[Option]):
+    def __init__(self, name: str, options: List[Option]):
         self.name = name
         self._options = options
-        self._option_weights = [option.weight for option in options]
+        self._option_weights = [option._weight for option in options]
 
     def __call__(self) -> Generator[Symbol, None, None]:
         """Returns one of the options based on the weights."""

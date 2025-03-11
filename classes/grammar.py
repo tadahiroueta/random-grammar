@@ -6,10 +6,10 @@ from classes.symbol import TerminalSymbol, VariableSymbol
 
 class Grammar:
     def __init__(self, rules: Set[Rule]):
-        self.rules: Dict[str, Rule] = { rule.name.name: rule for rule in rules }
+        self._rules: Dict[str, Rule] = { rule.name: rule for rule in rules }
 
     def __call__(self, start_variable: str) -> Generator[str, None, None]:
-        for symbol in self.rules[start_variable]():
+        for symbol in self._rules[start_variable]():
             if isinstance(symbol, TerminalSymbol):
                 yield symbol.value
 

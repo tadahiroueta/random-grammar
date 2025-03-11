@@ -11,7 +11,7 @@ class TestRule(unittest.TestCase):
 
     def test_random_selection(self):
         SEED = 0
-        NAME = VariableSymbol("Name")
+        NAME = "Name"
         OPTIONS = [
             Option(1, [TerminalSymbol("Value1")]),
             Option(2, [TerminalSymbol("Value2")]),

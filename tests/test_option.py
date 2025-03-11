@@ -16,8 +16,8 @@ class TestOption(unittest.TestCase):
         option = Option(WEIGHT, VALUE)
         generator = option()
 
-        self.assertEqual(option.weight, WEIGHT, 'Failed to set weight')
-        self.assertEqual(option.value, VALUE, 'Failed to set value')
+        self.assertEqual(option._weight, WEIGHT, 'Failed to set weight')
+        self.assertEqual(option._value, VALUE, 'Failed to set value')
         self.assertEqual(next(generator), VALUE[0], 'Failed to yield first symbol')
         self.assertEqual(next(generator), VALUE[1], 'Failed to yield second symbol')
         self.assertEqual(next(generator), VALUE[2], 'Failed to yield third symbol')
